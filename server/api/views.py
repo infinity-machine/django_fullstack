@@ -6,12 +6,9 @@ import pymongo
 # 'mongodb+srv://shlermBOT:password12345@cluster0.gybf2ep.mongodb.net/test'
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client.dj_fs
-col = db['people']
+people = db['people']
 
-person = {
-    'name': 'steve',
-    'age': 40
-}
+# x = people.insert_one(person)
 
 # Create your views here.
 
@@ -23,9 +20,14 @@ person = {
 #     return JsonResponse(data)
 
 def index(request):
-    print(request)
-    data = {
-        "message": "fuck"
-    }
+    # print(request)
 
-    return JsonResponse(data)
+    response = {}
+
+    for data in people.find():
+        print(data)
+
+    
+    return JsonResponse({
+        "ok": "ok"
+    })
