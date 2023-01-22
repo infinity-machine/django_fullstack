@@ -1,5 +1,6 @@
 // import { fetchData, postData } from './utils/api'
 import { useState, useEffect } from 'react'
+import axios from 'axios';
 
 function App() {
   const [ input, setInput ] = useState('');
@@ -7,24 +8,16 @@ function App() {
 
   const postData = (boi_name) => {
     const data = {
-      "name": `${boi_name}`
-    }
-    fetch('/api/', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
+      name: boi_name
+    };
+    axios.post('http://localhost:8000/api/', data);
+    window.location.reload()
   }
 
   const fetchData = async () => {
-    const response = await fetch('/api', {
-      method: 'GET'
-    });
-    const data = await response.json()
-    return data
+    const response = await axios.get('http://localhost:8000/api/');
+    const data = response.data;
+    return data;
   }
 
   const handleSubmit = (e) => {

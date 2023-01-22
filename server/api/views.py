@@ -12,7 +12,6 @@ class UsersTable(APIView):
         return Response(serialized.data)
     
     def post(self, request):
-        print(request)
         serializeObj = UserSerializer(data = request.data)
         if serializeObj.is_valid():
             serializeObj.save()
