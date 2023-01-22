@@ -1,17 +1,35 @@
-import { fetchData, postData } from './utils/api'
+// import { fetchData, postData } from './utils/api'
 import { useState, useEffect } from 'react'
 
 function App() {
   const [ input, setInput ] = useState('');
-  const [ user, setUser ] = useState({
-    name: 'Connor'
-  });
-  const [data, setData] = useState('');
+  const [data, setData] = useState(null);
+
+  const postData = (boi_name) => {
+    const data = {
+      "name": `${boi_name}`
+    }
+    fetch('/api/', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+  }
+
+  const fetchData = async () => {
+    const response = await fetch('/api', {
+      method: 'GET'
+    });
+    const data = await response.json()
+    return data
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // postData(input, user.name);
-    console.log(input);
+    postData(input);
     setInput('');
   }
 
@@ -19,13 +37,9 @@ function App() {
     setInput(e.target.value);
   };
 
-  const renderData = (data) => {
-    console.log(data)
-  }
-
   useEffect(() => {
     fetchData()
-      // .then(data => console.log(data));
+      .then(data => setData(data));
   }, []);
 
   return (
@@ -37,7 +51,15 @@ function App() {
           onChange={handleInputChange}/>
         <button>SUBMIT</button>
       </form>
-      <div></div>
+      {
+        data ? data.map((data, index) => {
+          return (
+            <div key={index}>
+              <p>{data.name}</p>
+            </div>
+          )
+        }) : <></>
+      }
     </div>
   );
 }
