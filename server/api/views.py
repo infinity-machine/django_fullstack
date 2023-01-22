@@ -1,33 +1,19 @@
-from django.shortcuts import render
-import json
-from django.http import JsonResponse
-import pymongo
-# 'mongodb+srv://shlermBOT:password12345@cluster0.gybf2ep.mongodb.net/dj_fs'
-# 'mongodb+srv://shlermBOT:password12345@cluster0.gybf2ep.mongodb.net/test'
-client = pymongo.MongoClient("mongodb://localhost:27017/")
-db = client.dj_fs
-people = db['people']
+from api import serialize
+from api.models import UserModel
+from api.serialize import UserSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
-# x = people.insert_one(person)
-
-# Create your views here.
-
-# def api_home(request):
-#     data = {
-#         "message": "fuck"
-#     }
-
-#     return JsonResponse(data)
-
-def index(request):
-    # print(request)
-
-    response = {}
-
-    for data in people.find():
-        print(data)
-
+class UsersTable(APIView):
+    def get(self, request):
+        print(request)
+        userObj = UserModel.objects.all()
+        serialized = UserSerializer(userObj, many = True)
+        return Response(serialized.data)
     
-    return JsonResponse({
-        "ok": "ok"
-    })
+    def post(self, request):
+        serializeObj = UserSerializer(data = request.data)
+        if serializeObj.is_valid():
+            serializeObj.save()
+            return Response(200)
+        return Response(serializeObj.errors)

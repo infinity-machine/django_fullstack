@@ -2,8 +2,9 @@ export async function fetchData(){
     const response = await fetch('/api', {
         method: 'GET'
     });
+    console.log(response)
     const data = await response.json();
-    console.log(data)
+    return data
 }
 
 export async function postData(message, sender){
