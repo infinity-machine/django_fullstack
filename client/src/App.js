@@ -16,11 +16,13 @@ function App() {
   const fetchData = async () => {
     const response = await axios.get('http://localhost:8000/api/');
     const data = response.data;
+    console.log(data)
     return data;
   };
 
-  const handleDelete = () => {
-    console.log('ok');
+  const handleDelete = (e) => {
+    axios.post(`http://localhost:8000/delete/${e.target.dataset.id}/`);
+    // window.location.reload();
   };
 
   const handleSubmit = (e) => {
@@ -54,7 +56,7 @@ function App() {
           return (
             <div key={index}>
               <h2>{data.name}</h2>
-              <button onClick={handleDelete}>DELETE</button>
+              <button data-id={data.id} onClick={handleDelete}>DELETE</button>
             </div>
           )
         }) : <h2>NO BOIS AVAILABLE</h2>

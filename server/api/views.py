@@ -17,3 +17,12 @@ class UsersTable(APIView):
             serializeObj.save()
             return Response(200)
         return Response(serializeObj.errors)
+
+class UsersDelete(APIView):
+    def post(self, request, pk):
+        try:
+            userObj = UserModel.objects.get(pk = pk)
+        except:
+            return Response('BOI NOT FOUND IN DATABASE')
+        userObj.delete()
+        return Response(200)
