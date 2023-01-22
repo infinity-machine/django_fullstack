@@ -1,4 +1,3 @@
-// import { fetchData, postData } from './utils/api'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 
@@ -11,20 +10,24 @@ function App() {
       name: boi_name
     };
     axios.post('http://localhost:8000/api/', data);
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   const fetchData = async () => {
     const response = await axios.get('http://localhost:8000/api/');
     const data = response.data;
     return data;
-  }
+  };
+
+  const handleDelete = () => {
+    console.log('ok');
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     postData(input);
     setInput('');
-  }
+  };
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -37,6 +40,7 @@ function App() {
 
   return (
     <div>
+      <p>ADD A BOI TO THE LIST</p>
       <form onSubmit={handleSubmit}>
         <input 
           type="text"
@@ -44,14 +48,16 @@ function App() {
           onChange={handleInputChange}/>
         <button>SUBMIT</button>
       </form>
+      <h1>BOI LIST</h1>
       {
         data ? data.map((data, index) => {
           return (
             <div key={index}>
-              <p>{data.name}</p>
+              <h2>{data.name}</h2>
+              <button onClick={handleDelete}>DELETE</button>
             </div>
           )
-        }) : <></>
+        }) : <h2>NO BOIS AVAILABLE</h2>
       }
     </div>
   );
