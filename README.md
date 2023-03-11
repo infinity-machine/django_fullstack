@@ -1,2 +1,2 @@
 # DJANGO / REACT
-This is a test CRUD application utilizing a React frontend and a Django backend
+Test CRUD application, using React, Django, and Django Rest Framework

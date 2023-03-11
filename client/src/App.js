@@ -9,8 +9,8 @@ function App() {
     const data = {
       name: boi_name
     };
-    axios.post('http://localhost:8000/api/', data);
-    window.location.reload();
+    axios.post('http://localhost:8000/api/', data)
+    .then(() => window.location.reload());
   };
 
   const fetchData = async () => {
@@ -42,6 +42,7 @@ function App() {
 
   return (
     <div>
+      <h1>COMPREHENSIVE LIST OF BOIS</h1>
       <p>ADD A BOI TO THE LIST</p>
       <form onSubmit={handleSubmit}>
         <input 

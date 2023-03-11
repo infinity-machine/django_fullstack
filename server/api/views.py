@@ -1,9 +1,7 @@
-from api import serialize
 from api.models import UserModel
 from api.serialize import UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-import pprint
 
 class UsersTable(APIView):
     def get(self, request):
@@ -20,7 +18,6 @@ class UsersTable(APIView):
 
 class UsersDelete(APIView):
     def delete(self, request, pk):
-        print(request)
         userObj = UserModel.objects.get(pk=pk)
         try:
             userObj = UserModel.objects.get(pk = pk)
