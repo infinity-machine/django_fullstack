@@ -5,24 +5,22 @@ function App() {
   const [ input, setInput ] = useState('');
   const [data, setData] = useState(null);
 
-  const postData = (boi_name) => {
-    const data = {
-      name: boi_name
-    };
-    axios.post('http://localhost:8000/api/', data)
-    .then(() => window.location.reload());
-  };
-
-  const fetchData = async () => {
-    const response = await axios.get('http://localhost:8000/api/');
-    const data = response.data;
-    return data;
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
   };
 
   const handleDelete = async(e) => {
     e.preventDefault();
     axios.delete(`http://localhost:8000/delete/${e.target.dataset.id}/`)
-    .then(() => window.location.reload());
+      .then(() => fetchData());
+  };
+
+  const postData = (boi_name) => {
+    const data = {
+      name: boi_name
+    };
+    axios.post('http://localhost:8000/api/', data)
+      .then(() => fetchData());
   };
 
   const handleSubmit = (e) => {
@@ -30,14 +28,15 @@ function App() {
     postData(input);
     setInput('');
   };
-
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
+  
+  const fetchData = async () => {
+    const response = await axios.get('http://localhost:8000/api/');
+    const data = response.data;
+    setData(data)
   };
 
   useEffect(() => {
     fetchData()
-      .then(data => setData(data));
   }, []);
 
   return (
@@ -53,7 +52,7 @@ function App() {
       </form>
       <h1>BOI LIST</h1>
       {
-        data ? data.map((data, index) => {
+        data ? [...data].reverse().map((data, index) => {
           return (
             <div key={index}>
               <h2>{data.name}</h2>
