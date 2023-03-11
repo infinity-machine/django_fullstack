@@ -16,13 +16,13 @@ function App() {
   const fetchData = async () => {
     const response = await axios.get('http://localhost:8000/api/');
     const data = response.data;
-    console.log(data)
     return data;
   };
 
-  const handleDelete = (e) => {
-    axios.post(`http://localhost:8000/delete/${e.target.dataset.id}/`);
-    // window.location.reload();
+  const handleDelete = async(e) => {
+    e.preventDefault();
+    axios.delete(`http://localhost:8000/delete/${e.target.dataset.id}/`)
+    .then(() => window.location.reload());
   };
 
   const handleSubmit = (e) => {

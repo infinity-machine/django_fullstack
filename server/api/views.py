@@ -3,10 +3,10 @@ from api.models import UserModel
 from api.serialize import UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+import pprint
 
 class UsersTable(APIView):
     def get(self, request):
-        print(request)
         userObj = UserModel.objects.all()
         serialized = UserSerializer(userObj, many = True)
         return Response(serialized.data)
@@ -19,10 +19,13 @@ class UsersTable(APIView):
         return Response(serializeObj.errors)
 
 class UsersDelete(APIView):
-    def post(self, request, pk):
+    def delete(self, request, pk):
+        print(request)
+        userObj = UserModel.objects.get(pk=pk)
         try:
             userObj = UserModel.objects.get(pk = pk)
+            print(userObj)
+            userObj.delete()
         except:
             return Response('BOI NOT FOUND IN DATABASE')
-        userObj.delete()
         return Response(200)
