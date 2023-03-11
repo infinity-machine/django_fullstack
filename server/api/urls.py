@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', views.UsersTable.as_view()),
     path('delete/<int:pk>/', views.UsersDelete.as_view()),
-    path('', include('frontend.urls'))
+    path('', include('client_config.urls'))
 ]
